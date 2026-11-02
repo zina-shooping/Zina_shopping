@@ -17,7 +17,607 @@
         }
 
         *, *::before, *::after {
+            box-sizing: border-box;<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zina Shopping - نظام المبيعات والفواتير والحسابات</title>
+    <style>
+        :root {
+            --primary-green: #1e3d2f;
+            --accent-beige: #f4f1ea;
+            --dark-text: #2c2c2c;
+            --white: #ffffff;
+            --whatsapp-green: #25d366;
+            --danger-red: #c0392b;
+            --success-green: #27ae60;
+            --blue-accent: #2980b9;
+        }
+
+        *, *::before, *::after {
             box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--accent-beige);
+            color: var(--dark-text);
+            padding-bottom: 85px;
+        }
+
+        /* الهيدر العلوي */
+        .app-header {
+            background-color: var(--white);
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 2px solid var(--primary-green);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .app-header h1 {
+            margin: 0;
+            font-size: 1.15rem;
+            color: var(--primary-green);
+            font-weight: bold;
+            flex-grow: 1;
+        }
+
+        .header-btns {
+            display: flex;
+            gap: 5px;
+        }
+
+        .admin-trigger-btn, .accounts-trigger-btn {
+            background: none;
+            border: 1px solid var(--primary-green);
+            color: var(--primary-green);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .accounts-trigger-btn {
+            background-color: var(--primary-green);
+            color: var(--white);
+        }
+
+        /* شريط أسعار الصرف والمعلومات المباشرة */
+        .exchange-banner {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 6px 15px;
+            font-size: 0.75rem;
+            text-align: center;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        /* قسم الشعار البصري الدائري */
+        .logo-container {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--white) 0%, var(--accent-beige) 100%);
+            margin: 12px 12px 0 12px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(30, 61, 47, 0.08);
+            border: 1px solid #e2ded4;
+        }
+
+        .logo-circle {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 8px auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-beige) 50%, var(--primary-green) 50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 15px rgba(30, 61, 47, 0.2);
+            border: 3px solid var(--primary-green);
+        }
+
+        .logo-name {
+            color: var(--primary-green);
+            font-weight: 800;
+            font-size: 0.95rem;
+            line-height: 1.2;
+        }
+
+        .logo-handle {
+            font-size: 0.65rem;
+            color: var(--white);
+            background-color: rgba(30, 61, 47, 0.85);
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-top: 3px;
+            font-weight: 600;
+        }
+
+        .brand-subtitle {
+            font-size: 0.75rem;
+            color: #555;
+            font-weight: 600;
+        }
+
+        /* شريط البحث والتنقل السريع */
+        .search-container {
+            padding: 8px 12px;
+            background-color: var(--white);
+            border-bottom: 1px solid #e0ddd5;
+            margin-top: 10px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d0ccc4;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            outline: none;
+            background-color: #faf8f5;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-green);
+            background-color: var(--white);
+        }
+
+        /* فئات التصفح */
+        .filter-chips {
+            display: flex;
+            gap: 6px;
+            padding: 8px 12px;
+            overflow-x: auto;
+            background-color: var(--white);
+            white-space: nowrap;
+            border-bottom: 1px solid #eee;
+        }
+
+        .chip {
+            background-color: var(--accent-beige);
+            color: var(--primary-green);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: 1px solid #dcd6cb;
+        }
+
+        .chip.active, .chip:hover {
+            background-color: var(--primary-green);
+            color: var(--white);
+        }
+
+        /* المحتوى والكتالوج */
+        .content {
+            padding: 10px 12px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            color: var(--primary-green);
+            font-weight: bold;
+            border-right: 4px solid var(--primary-green);
+            padding-right: 6px;
+            margin: 0;
+        }
+
+        .add-catalog-btn {
+            background-color: var(--primary-green);
+            color: var(--white);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* شبكة المنتجات */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .product-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #e0ddd5;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-title {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--dark-text);
+            margin-bottom: 4px;
+        }
+
+        .product-price-usd {
+            font-size: 0.75rem;
+            color: var(--blue-accent);
+            font-weight: bold;
+        }
+
+        .product-price-syp {
+            font-size: 0.75rem;
+            color: var(--success-green);
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .btn-add-cart {
+            background-color: var(--primary-green);
+            color: var(--white);
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* شريط سلة المشتريات السفلي العائم */
+        .cart-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--primary-green);
+            color: var(--white);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -3px 10px rgba(0,0,0,0.15);
+            z-index: 1000;
+        }
+
+        .cart-info {
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .cart-btn {
+            background-color: var(--success-green);
+            color: var(--white);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        /* النوافذ المنبثقة (Modals) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal-box {
+            background-color: var(--white);
+            width: 92%;
+            max-width: 420px;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--primary-green);
+            margin-bottom: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 3px;
+            color: var(--primary-green);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .btn-main {
+            background-color: var(--primary-green);
+            color: var(--white);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.85rem;
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .btn-secondary {
+            background-color: #ddd;
+            color: #333;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 0.8rem;
+        }
+
+        th, td {
+            padding: 6px;
+            text-align: right;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #faf8f5;
+            color: var(--primary-green);
+        }
+
+        .invoice-totals {
+            text-align: right;
+            background: #faf8f5;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+
+        .sham-cash-info {
+            background: #eef9f2;
+            border: 1px dashed var(--success-green);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 8px;
+            font-size: 0.75rem;
+            text-align: right;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر العلوي -->
+    <div class="app-header">
+        <h1>Zina Shopping</h1>
+        <div class="header-btns">
+            <button class="accounts-trigger-btn" onclick="openAccountsModal()">👥 الحسابات</button>
+            <button class="admin-trigger-btn" onclick="openPinModal()">⚙️ الإدارة</button>
+        </div>
+    </div>
+
+    <!-- شريط سعر الصرف المباشر -->
+    <div class="exchange-banner">
+        <span>💱 سعر الصرف: <strong id="displayRate">15,000</strong> ل.س / $</span>
+        <span>العميل الحالي: <strong id="currentSelectedClient">عام (بدون حساب)</strong></span>
+    </div>
+
+    <!-- قسم الشعار البصري الدائري -->
+    <div class="logo-container">
+        <div class="logo-circle">
+            <div class="logo-name">محمد<br>زينة</div>
+            <div class="logo-handle">@zn</div>
+        </div>
+        <div class="brand-subtitle">إدارة وتطوير: محمد زينة</div>
+    </div>
+
+    <!-- شريط البحث -->
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="ابحث عن صنف أو كابل..." id="searchInput">
+    </div>
+
+    <!-- فئات التصفح -->
+    <div class="filter-chips">
+        <button class="chip active" onclick="filterCategory('all')">الكل</button>
+        <button class="chip" onclick="filterCategory('cables')">الكابلات</button>
+        <button class="chip" onclick="filterCategory('hazzag')">الهزاع</button>
+        <button class="chip" onclick="filterCategory('lemar')">ليمار</button>
+    </div>
+
+    <!-- الكتالوج والمنتجات -->
+    <div class="content">
+        <div class="section-header">
+            <div class="section-title">قائمة المنتجات والأسعار</div>
+            <button class="add-catalog-btn" onclick="openPinModalForCatalog()">+ صنف جديد</button>
+        </div>
+        
+        <div class="products-grid" id="productsGrid"></div>
+    </div>
+
+    <!-- شريط سلة المشتريات السفلي العائم -->
+    <div class="cart-bar">
+        <div class="cart-info" id="cartSummary">السلة فارغة (0 أصناف)</div>
+        <button class="cart-btn" onclick="openCartModal()">🛒 عرض السلة وفاتورة البيع</button>
+    </div>
+
+    <!-- نافذة إدارة حسابات الزبائن -->
+    <div class="modal-overlay" id="accountsModal">
+        <div class="modal-box" style="max-width: 480px;">
+            <div class="modal-title">إدارة حسابات الزبائن والعملاء</div>
+            
+            <div style="background: #f9f8f6; padding: 10px; border-radius: 8px; margin-bottom: 12px; text-align: right;">
+                <div style="font-weight: bold; color: var(--primary-green); margin-bottom: 6px; font-size: 0.85rem;">➕ تسجیل حساب عميل جديد:</div>
+                <div class="form-group">
+                    <label>اسم العميل / الشركة:</label>
+                    <input type="text" id="newClientName" class="form-control" placeholder="مثال: شركة النور للتجارة">
+                </div>
+                <div class="form-group">
+                    <label>رقم الهاتف / الواتساب:</label>
+                    <input type="text" id="newClientPhone" class="form-control" placeholder="09xxxxxxxx">
+                </div>
+                <button class="btn-main" style="background-color: var(--success-green);" onclick="addNewClient()">حفظ وتمرير للحساب</button>
+            </div>
+
+            <div style="text-align: right; margin-bottom: 8px; font-size: 0.85rem; font-weight: bold; color: var(--primary-green);">قائمة الحسابات المسجلة:</div>
+            <div style="max-height: 150px; overflow-y: auto; margin-bottom: 10px;">
+                <table id="clientsTable">
+                    <thead>
+                        <tr>
+                            <th>اسم العميل</th>
+                            <th>الهاتف</th>
+                            <th>اختيار للحساب</th>
+                            <th>حذف</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clientsTableBody"></tbody>
+                </table>
+            </div>
+
+            <button class="btn-secondary" onclick="closeAccountsModal()">إغلاق</button>
+        </div>
+    </div>
+
+    <!-- نافذة إدخال الرمز السري PIN (بدون إظهار كلمة المرور في الشاشة) -->
+    <div class="modal-overlay" id="pinModal">
+        <div class="modal-box">
+            <div class="modal-title">تسجيل دخول الإدارة</div>
+            <div style="font-size: 0.8rem; color: #666; margin-bottom: 10px;">أدخل رمز الدخول الخاص بالمسؤول للمتابعة</div>
+            <div class="form-group">
+                <input type="password" id="adminPinInput" class="form-control" placeholder="أدخل الرمز السري..." style="text-align: center; font-size: 1rem;">
+            </div>
+            <button class="btn-main" onclick="verifyAdminPin()">دخول</button>
+            <button class="btn-secondary" onclick="closePinModal()">إلغاء</button>
+        </div>
+    </div>
+
+    <!-- لوحة التحكم للإدارة -->
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal-box">
+            <div class="modal-title">لوحة الإدارة والأسعار</div>
+            
+            <div style="background: #f9f8f6; padding: 10px; border-radius: 8px; margin-bottom: 12px; text-align: right;">
+                <div class="form-group">
+                    <label>سعر الصرف (ل.س مقابل $):</label>
+                    <input type="number" id="inputExchangeRate" class="form-control" value="15000">
+                </div>
+                <button class="btn-main" style="background-color: var(--success-green);" onclick="saveExchangeRate()">حفظ سعر الصرف</button>
+            </div>
+
+            <div style="background: #f9f8f6; padding: 10px; border-radius: 8px; margin-bottom: 12px; text-align: right;">
+                <div style="font-weight: bold; color: var(--primary-green); margin-bottom: 6px; font-size: 0.85rem;">➕ إضافة صنف جديد (بالدولار):</div>
+                <div class="form-group">
+                    <label>اسم الصنف:</label>
+                    <input type="text" id="newProdName" class="form-control" placeholder="مثال: كابل نحاس 2×1.5">
+                </div>
+                <div class="form-group">
+                    <label>السعر بالدولار ($):</label>
+                    <input type="number" step="0.01" id="newProdUsd" class="form-control" placeholder="مثال: 15.5">
+                </div>
+                <div class="form-group">
+                    <label>الفئة (cables, hazzag, lemar):</label>
+                    <input type="text" id="newProdCat" class="form-control" value="cables hazzag">
+                </div>
+                <button class="btn-main" onclick="addNewProduct()">إضافة الصنف</button>
+            </div>
+
+            <div style="max-height: 120px; overflow-y: auto; margin-bottom: 10px;">
+                <table id="adminProductsTable">
+                    <thead>
+                        <tr>
+                            <th>الصنف</th>
+                            <th>السعر ($)</th>
+                            <th>حذف</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminProductsBody"></tbody>
+                </table>
+            </div>
+
+            <button class="btn-secondary" onclick="closeAdminModal()">إغلاق</button>
+        </div>
+    </div>
+
+    <!-- نافذة سلة المشتريات والفاتورة -->
+    <div class="modal-overlay" id="cartModal">
+        <div class="modal-box" style="max-width: 480px;">
+            <div class="modal-title">فاتورة المبيعات وسلة الشراء</div>
+            <div style="font-size: 0.8rem; color: var(--blue-accent); margin-bottom: 8px; font-weight: bold;" id="invoiceClientDisplay">العميل: عام (بدون حساب)</div>
+            
+            <div style="max-height: 140px; overflow-y: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>الصنف</th>
+                            <th>الكمية</th>
+                            <th>السعر ($)</th>
+                            <th>الإجمالي ($)</th>
+                            <th>إزالة</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cartTableBody"></tbody>
+                </table>
+            </div>
+
+            <div class="invoice-totals">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                    <span>المجموع الفرعي:</span>
+                    <span><strong id="subTotalUsd">0.00</strong> $ / <strong id="subTotalSyp">0</strong> ل.س</span>
+                </div>
+                <div class="form-group" style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
+                    <label style="margin: 0; white-space: nowrap;">الخصم على الفاتورة (%):</label>
+                    <input type="number" id="discountPercent" class="form-control" value="0" min="0" max
         }
 
         body {
